@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio</title>
+    <meta
+      name="description"
+      content="Portfolio of Christian Vargas — Software Developer (AI/ML & Full‑Stack). Projects: Music Recommendation System, Apollo AI Alexa Skill, Password Manager."
+    />
+    <meta property="og:title" content="Portfolio" />
+    <meta
+      property="og:description"
+      content="Software Developer (AI/ML & Full‑Stack). Selected projects and contact."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0f172a" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Smooth scroll + offset so sticky header doesn't cut titles */
+      :root {
+        --header-offset: 80px;
+      } /* adjust if your header is taller */
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: var(--header-offset);
+      }
+      section[id],
+      main#home {
+        scroll-margin-top: var(--header-offset);
+      }
+
+      /* Back-to-top button */
+      .back-to-top {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        z-index: 50;
+        width: 44px;
+        height: 44px;
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        cursor: pointer;
+        background: linear-gradient(120deg, var(--brand), var(--brand-2));
+        color: #0b1020;
+        border: 1px solid rgba(124, 58, 237, 0.35);
+        box-shadow: 0 10px 30px -10px var(--ring);
+        opacity: 0;
+        transform: translateY(8px);
+        pointer-events: none;
+        transition: opacity 0.25s, transform 0.25s;
+      }
+      .back-to-top.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+      .back-to-top:focus-visible {
+        outline: 3px solid var(--brand-2);
+        outline-offset: 2px;
+      }
+
+      /* Respect reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+
+      :root {
+        --bg: #0b1020;
+        --panel: #0f172a;
+        --text: #e5e7eb;
+        --muted: #94a3b8;
+        --brand: #7c3aed; /* violet-600 */
+        --brand-2: #22d3ee; /* cyan-400 */
+        --card: #0b1220;
+        --ring: rgba(124, 58, 237, 0.35);
+      }
+      :root {
+        --header-offset: 40px;
+      } /* fallback; adjust if you like */
+
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: var(
+          --header-offset
+        ); /* global offset for anchor jumps */
+      }
+
+      /* make each section respect the header height when targeted */
+      section[id],
+      main#home {
+        scroll-margin-top: var(--header-offset);
+      }
+
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #f8fafc;
+          --panel: #ffffff;
+          --text: #0f172a;
+          --muted: #475569;
+          --card: #ffffff;
+          --ring: rgba(124, 58, 237, 0.25);
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial,
+          sans-serif;
+        color: var(--text);
+        background: radial-gradient(
+            1200px 800px at 10% -10%,
+            rgba(124, 58, 237, 0.18),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 600px at 110% 10%,
+            rgba(34, 211, 238, 0.15),
+            transparent 60%
+          ),
+          var(--bg);
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .container {
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 0 20px;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        backdrop-filter: saturate(180%) blur(10px);
+        background: linear-gradient(
+          to bottom,
+          rgba(11, 16, 32, 0.85),
+          rgba(11, 16, 32, 0.55)
+        );
+        border-bottom: 1px solid rgba(124, 58, 237, 0.15);
+      }
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 0;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.3px;
+      }
+      .brand .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: linear-gradient(120deg, var(--brand), var(--brand-2));
+        box-shadow: 0 0 0 6px var(--ring);
+      }
+      .navlinks {
+        display: flex;
+        gap: 1rem;
+      }
+      .navlinks a {
+        padding: 0.5rem 0.75rem;
+        border-radius: 10px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .navlinks a:hover {
+        color: var(--text);
+        background: rgba(124, 58, 237, 0.12);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 2rem;
+        align-items: center;
+        padding: 64px 0;
+      }
+      .title {
+        font-size: clamp(2rem, 4.5vw, 3.5rem);
+        line-height: 1.05;
+        font-weight: 800;
+      }
+      .grad {
+        background: linear-gradient(90deg, var(--brand), var(--brand-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .subtitle {
+        color: var(--muted);
+        font-size: 1.125rem;
+        margin-top: 0.75rem;
+      }
+      .actions {
+        margin-top: 1.25rem;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        border-radius: 14px;
+        border: 1px solid rgba(124, 58, 237, 0.35);
+        font-weight: 700;
+      }
+      .btn.primary {
+        background: linear-gradient(120deg, var(--brand), var(--brand-2));
+        color: #0b1020;
+        border: none;
+      }
+      .btn:hover {
+        box-shadow: 0 8px 28px -12px var(--ring);
+      }
+
+      section {
+        padding: 56px 0;
+      }
+      .section-title {
+        font-size: 1.75rem;
+        font-weight: 800;
+        margin: 0 0 18px;
+      }
+      .section-sub {
+        color: var(--muted);
+        margin: 0 0 24px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 18px;
+      }
+      @media (min-width: 720px) {
+        .grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      .card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        border: 1px solid rgba(124, 58, 237, 0.15);
+        border-radius: 18px;
+        padding: 18px;
+        position: relative;
+        overflow: hidden;
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: -1px -1px auto -1px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--brand), var(--brand-2));
+        opacity: 0.8;
+      }
+      .card h3 {
+        margin: 4px 0 6px;
+        font-size: 1.15rem;
+      }
+      .card p {
+        color: var(--muted);
+        font-size: 0.975rem;
+        margin: 0 0 12px;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .tag {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.6rem;
+        border-radius: 999px;
+        border: 1px solid rgba(124, 58, 237, 0.25);
+        background: rgba(124, 58, 237, 0.1);
+      }
+      .card .links {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 12px;
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-weight: 600;
+        border: 1px solid rgba(124, 58, 237, 0.25);
+        padding: 0.5rem 0.7rem;
+        border-radius: 12px;
+      }
+      .chip:hover {
+        border-color: rgba(124, 58, 237, 0.45);
+      }
+
+      .skills {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      @media (min-width: 860px) {
+        .skills {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+      .skill {
+        background: var(--card);
+        border: 1px solid rgba(124, 58, 237, 0.15);
+        padding: 12px 14px;
+        border-radius: 14px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+
+      .about {
+        display: grid;
+        grid-template-columns: 1.05fr 1fr;
+        gap: 2rem;
+      }
+      .about p {
+        color: var(--muted);
+      }
+
+      footer {
+        padding: 40px 0 56px;
+        color: var(--muted);
+        border-top: 1px dashed rgba(124, 58, 237, 0.25);
+        margin-top: 32px;
+      }
+
+      /* Theme toggle */
+      .toggle {
+        inline-size: 56px;
+        block-size: 32px;
+        border-radius: 999px;
+        background: #141b32;
+        border: 1px solid rgba(124, 58, 237, 0.3);
+        position: relative;
+      }
+      .knob {
+        position: absolute;
+        inset: 3px auto 3px 3px;
+        inline-size: 26px;
+        block-size: 26px;
+        border-radius: 50%;
+        background: linear-gradient(140deg, var(--brand), var(--brand-2));
+        transition: transform 0.25s ease;
+      }
+      .toggled .knob {
+        transform: translateX(24px);
+      }
+    </style>
+  </head>
+  <button
+    id="backToTop"
+    class="back-to-top"
+    aria-label="Back to top"
+    title="Back to top"
+  >
+    <!-- Up arrow icon -->
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M12 5l7 7-1.4 1.4L13 9.8V20h-2V9.8L6.4 13.4 5 12z"
+      />
+    </svg>
+  </button>
+
+  <body>
+    <header role="banner">
+      <div class="container">
+        <nav aria-label="Primary">
+          <a class="brand" href="#home" aria-label="Go to top">
+            <span>Christian&nbsp;Vargas</span>
+          </a>
+          <div style="display: flex; align-items: center; gap: 12px">
+            <div class="navlinks">
+              <a href="#projects">Projects</a>
+              <a href="#skills">Skills</a>
+              <a href="#about">About</a>
+              <a href="#contact">Contact</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="home" class="container" role="main">
+      <section class="hero" aria-labelledby="intro-heading">
+        <div>
+          <h1 id="intro-heading" class="title">
+            Hi, I’m <span class="grad">Christian&nbsp;Vargas</span> - Software
+            Developer building AI/ML & full‑stack projects.
+          </h1>
+          <p class="subtitle">
+            I love turning everyday issues into tools everyone can use. Below
+            are a few projects I’m proud of.
+          </p>
+          <div class="actions">
+            <a class="btn primary" href="#projects">See projects</a>
+            <a
+              class="btn"
+              href="https://github.com/christiansvargas"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub profile"
+            >
+              <!-- GitHub icon -->
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.69c-2.78.6-3.37-1.2-3.37-1.2-.46-1.16-1.12-1.47-1.12-1.47-.91-.61.07-.6.07-.6 1 .07 1.53 1.05 1.53 1.05.9 1.53 2.36 1.09 2.94.83.09-.66.36-1.1.65-1.35-2.22-.25-4.56-1.11-4.56-4.93 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.54 9.54 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.83-2.34 4.67-4.57 4.92.37.32.69.94.69 1.9v2.81c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"
+                />
+              </svg>
+              GitHub
+            </a>
+            <a
+              class="btn"
+              href="mailto:christian.s.vargas4@gmail.com"
+              aria-label="Email Christian"
+            >
+              <!-- mail icon -->
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5L4 8V6l8 5 8-5Z"
+                />
+              </svg>
+              Email
+            </a>
+            <a
+              class="btn"
+              href="https://www.linkedin.com/in/christian-s-vargas/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn profile"
+            >
+              <!-- linkedin icon -->
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M4.98 3.5C4.98 4.88 3.85 6 2.5 6S0 4.88 0 3.5C0 2.12 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.1c.5-.9 1.8-2.2 3.8-2.2 4.1 0 4.8 2.7 4.8 6.2V24h-4v-7c0-1.7 0-3.8-2.3-3.8-2.3 0-2.7 1.8-2.7 3.7V24h-4V8z"
+                />
+              </svg>
+              LinkedIn
+            </a>
+          </div>
+        </div>
+        <div
+          aria-hidden="true"
+          style="
+            aspect-ratio: 1/1;
+            border-radius: 24px;
+            background: linear-gradient(
+              135deg,
+              rgba(124, 58, 237, 0.35),
+              rgba(34, 211, 238, 0.25)
+            );
+            border: 1px solid rgba(124, 58, 237, 0.15);
+            box-shadow: 0 30px 120px -30px var(--ring);
+          "
+        ></div>
+      </section>
+
+      <section id="projects" aria-labelledby="projects-heading">
+        <h2 class="section-title" id="projects-heading">Selected Projects</h2>
+        <p class="section-sub">
+          A quick tour of work spanning machine learning, voice assistants, and
+          desktop apps.
+        </p>
+        <div class="grid">
+          <!-- Project 1 -->
+          <article class="card" aria-labelledby="p1-title">
+            <h3 id="p1-title">Music Recommendation System</h3>
+            <p>
+              Personalized recommender using
+              <strong>content‑based filtering</strong> and
+              <strong>cosine similarity</strong>. Built in Python with NumPy,
+              pandas, and scikit‑learn; runs from the command line.
+            </p>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">NumPy</span>
+              <span class="tag">pandas</span>
+              <span class="tag">scikit‑learn</span>
+              <span class="tag">CLI</span>
+            </div>
+            <div class="links">
+              <a
+                class="chip"
+                href="https://github.com/christiansvargas/recommendation-system"
+                target="_blank"
+                rel="noopener noreferrer"
+                >View on GitHub</a
+              >
+            </div>
+          </article>
+
+          <!-- Project 2 -->
+          <article class="card" aria-labelledby="p2-title">
+            <h3 id="p2-title">🪙Apollo AI — Alexa Skill</h3>
+            <p>
+              Hackathon‑built Alexa skill that lets you choose an LLM backend
+              (OpenAI/Microsoft/Meta) and chat via voice. Role: prompts,
+              integrations, and change management. Award : 1st Place in the
+              <i>Most Likely to Become a Startup</i> track
+            </p>
+            <div class="tags">
+              <span class="tag">HTML/CSS/JS</span>
+              <span class="tag">Alexa Skills Kit</span>
+              <span class="tag">AWS Lambda</span>
+              <span class="tag">React</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">Voice UI</span>
+            </div>
+            <div class="links">
+              <a
+                class="chip"
+                href="https://github.com/christiansvargas/apollo_ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                >View on GitHub</a
+              >
+              <a
+                class="chip"
+                href="https://devpost.com/software/apollo-ai-eqvxh3"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Demo & Details</a
+              >
+            </div>
+          </article>
+
+          <!-- Project 3 -->
+          <article class="card" aria-labelledby="p3-title">
+            <h3 id="p3-title">Password Manager</h3>
+            <p>
+              Desktop app from my IB CS internal assessment using a lightweight
+              MVC design and local file storage. Simple GUI to add, view, and
+              update passwords (learning project; not for production security).
+            </p>
+            <div class="tags">
+              <span class="tag">Java</span>
+              <span class="tag">Swing</span>
+              <span class="tag">MVC</span>
+              <span class="tag">Hashing & Encryption</span>
+            </div>
+            <div class="links">
+              <a
+                class="chip"
+                href="https://github.com/christiansvargas/password-manager"
+                target="_blank"
+                rel="noopener noreferrer"
+                >View on GitHub</a
+              >
+              <a
+                class="chip"
+                href="https://youtu.be/6-agSZg3kaE"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Demo</a
+              >
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="skills" aria-labelledby="skills-heading">
+        <h2 class="section-title" id="skills-heading">Skills & Tools</h2>
+        <p class="section-sub">
+          Languages, frameworks, and platforms I’ve used.
+        </p>
+        <div class="skills" role="list">
+          <div class="skill" role="listitem">Java</div>
+          <div class="skill" role="listitem">Python</div>
+          <div class="skill" role="listitem">C</div>
+          <div class="skill" role="listitem">JavaScript</div>
+          <div class="skill" role="listitem">HTML/CSS</div>
+          <div class="skill" role="listitem">React</div>
+          <div class="skill" role="listitem">Node.js</div>
+          <div class="skill" role="listitem">AWS Lambda</div>
+          <div class="skill" role="listitem">Alexa Skills Kit</div>
+          <div class="skill" role="listitem">OpenAI API</div>
+          <div class="skill" role="listitem">Hashing & Encryption</div>
+          <div class="skill" role="listitem">Git & GitHub</div>
+        </div>
+      </section>
+
+      <section id="about" class="about" aria-labelledby="about-heading">
+        <div>
+          <h2 class="section-title" id="about-heading">About</h2>
+          <p>
+            Hi! I’m Christian, a software developer who enjoys building
+            practical tools across ML, web, and voice. I’ve been programming for
+            ~6 years and love communicating ideas, learning fast, and shipping
+            clean, maintainable code. Outside of tech you’ll find me at the gym,
+            on a basketball court, or tinkering with new side projects.
+          </p>
+        </div>
+        <div class="card">
+          <h3 style="margin: 4px 0 10px">Quick facts</h3>
+          <ul style="margin: 0; padding-left: 18px; color: var(--muted)">
+            <li>Interests: AI/ML, cybersecurity, web dev, voice assistants</li>
+            <li>Based in the Washington, D.C. area</li>
+            <li>Open to collaborating on impactful projects</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="contact" aria-labelledby="contact-heading">
+        <h2 class="section-title" id="contact-heading">Get in touch</h2>
+        <p class="section-sub">
+          The fastest way to reach me is email. I’m happy to chat about roles,
+          projects, or collaborations.
+        </p>
+        <div class="actions">
+          <a class="btn primary" href="mailto:christian.s.vargas4@gmail.com"
+            >Email me</a
+          >
+          <a
+            class="btn"
+            href="https://github.com/christiansvargas"
+            target="_blank"
+            rel="noopener noreferrer"
+            >GitHub</a
+          >
+          <a
+            class="btn"
+            href="https://www.linkedin.com/in/christian-s-vargas/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >LinkedIn</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // Calculate header height -> CSS var (handles responsive header)
+      function setHeaderOffset() {
+        const h = document.querySelector("header")?.offsetHeight || 64;
+        document.documentElement.style.setProperty(
+          "--header-offset",
+          h + 12 + "px"
+        );
+      }
+      window.addEventListener("load", setHeaderOffset);
+      window.addEventListener("resize", setHeaderOffset);
+
+      // Smooth-scroll nav links with exact offset
+      const prefersReduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+      document.querySelectorAll('nav a[href^="#"]').forEach((a) => {
+        a.addEventListener("click", (e) => {
+          const id = a.getAttribute("href");
+          if (!id || id === "#") return;
+          const el = document.querySelector(id);
+          if (!el) return;
+          e.preventDefault();
+          const off =
+            parseFloat(
+              getComputedStyle(document.documentElement).getPropertyValue(
+                "--header-offset"
+              )
+            ) || 80;
+          const y = el.getBoundingClientRect().top + window.pageYOffset - off;
+          window.scrollTo({
+            top: y,
+            behavior: prefersReduced ? "auto" : "smooth",
+          });
+          history.pushState(null, "", id); // keep hash in URL
+        });
+      });
+
+      // Back-to-top button
+      const backToTop = document.getElementById("backToTop");
+      const revealAt = 300;
+      function toggleBTT() {
+        if (window.scrollY > revealAt) backToTop.classList.add("show");
+        else backToTop.classList.remove("show");
+      }
+      window.addEventListener("scroll", toggleBTT);
+      toggleBTT();
+
+      backToTop.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: prefersReduced ? "auto" : "smooth",
+        });
+        history.pushState(null, "", "#home");
+      });
+    </script>
+  </body>
+</html>
