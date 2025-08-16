@@ -22,57 +22,9 @@
       rel="stylesheet"
     />
     <style>
-      /* Smooth scroll + offset so sticky header doesn't cut titles */
-      :root {
-        --header-offset: 80px;
-      } /* adjust if your header is taller */
-      html {
-        scroll-behavior: smooth;
-        scroll-padding-top: var(--header-offset);
-      }
-      section[id],
-      main#home {
-        scroll-margin-top: var(--header-offset);
-      }
-
-      /* Back-to-top button */
-      .back-to-top {
-        position: fixed;
-        right: 20px;
-        bottom: 20px;
-        z-index: 50;
-        width: 44px;
-        height: 44px;
-        display: grid;
-        place-items: center;
-        border-radius: 999px;
-        cursor: pointer;
-        background: linear-gradient(120deg, var(--brand), var(--brand-2));
-        color: #0b1020;
-        border: 1px solid rgba(124, 58, 237, 0.35);
-        box-shadow: 0 10px 30px -10px var(--ring);
-        opacity: 0;
-        transform: translateY(8px);
-        pointer-events: none;
-        transition: opacity 0.25s, transform 0.25s;
-      }
-      .back-to-top.show {
-        opacity: 1;
-        transform: translateY(0);
-        pointer-events: auto;
-      }
-      .back-to-top:focus-visible {
-        outline: 3px solid var(--brand-2);
-        outline-offset: 2px;
-      }
-
-      /* Respect reduced motion */
-      @media (prefers-reduced-motion: reduce) {
-        html {
-          scroll-behavior: auto;
-        }
-      }
-
+      /* -------------------------------------
+         Base + tokens
+      ------------------------------------- */
       :root {
         --bg: #0b1020;
         --panel: #0f172a;
@@ -82,24 +34,8 @@
         --brand-2: #22d3ee; /* cyan-400 */
         --card: #0b1220;
         --ring: rgba(124, 58, 237, 0.35);
+        --header-offset: 64px; /* updated dynamically in JS */
       }
-      :root {
-        --header-offset: 40px;
-      } /* fallback; adjust if you like */
-
-      html {
-        scroll-behavior: smooth;
-        scroll-padding-top: var(
-          --header-offset
-        ); /* global offset for anchor jumps */
-      }
-
-      /* make each section respect the header height when targeted */
-      section[id],
-      main#home {
-        scroll-margin-top: var(--header-offset);
-      }
-
       @media (prefers-color-scheme: light) {
         :root {
           --bg: #f8fafc;
@@ -110,12 +46,19 @@
           --ring: rgba(124, 58, 237, 0.25);
         }
       }
+
       * {
         box-sizing: border-box;
       }
       html {
         scroll-behavior: smooth;
+        scroll-padding-top: var(--header-offset);
       }
+      section[id],
+      main#home {
+        scroll-margin-top: var(--header-offset);
+      }
+
       body {
         margin: 0;
         font-family: Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial,
@@ -142,10 +85,15 @@
         margin-inline: auto;
         padding: 0 20px;
       }
+
+      /* -------------------------------------
+         Header / Nav (mobile-first)
+      ------------------------------------- */
       header {
         position: sticky;
         top: 0;
         z-index: 30;
+        padding-top: env(safe-area-inset-top);
         backdrop-filter: saturate(180%) blur(10px);
         background: linear-gradient(
           to bottom,
@@ -158,48 +106,104 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 14px 0;
+        padding: 12px 0;
       }
       .brand {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
         font-weight: 800;
         letter-spacing: 0.3px;
-      }
-      .brand .dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: linear-gradient(120deg, var(--brand), var(--brand-2));
-        box-shadow: 0 0 0 6px var(--ring);
-      }
-      .navlinks {
         display: flex;
-        gap: 1rem;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      /* Mobile menu button */
+      .menu-btn {
+        inline-size: 44px;
+        block-size: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        border: 1px solid rgba(124, 58, 237, 0.35);
+        background: rgba(124, 58, 237, 0.08);
+        color: var(--text);
+        cursor: pointer;
+      }
+      .menu-btn:focus-visible {
+        outline: 3px solid var(--brand-2);
+        outline-offset: 2px;
+      }
+
+      /* Nav links panel */
+      .navlinks {
+        display: none; /* shown on mobile when open; flex on desktop */
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: calc(var(--header-offset));
+        background: linear-gradient(
+          180deg,
+          var(--panel),
+          rgba(11, 16, 32, 0.7)
+        );
+        border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+        padding: 8px 16px 16px;
+        gap: 8px;
+        backdrop-filter: blur(8px) saturate(160%);
+      }
+      .navlinks.open {
+        display: grid;
+        grid-auto-rows: min-content;
       }
       .navlinks a {
-        padding: 0.5rem 0.75rem;
-        border-radius: 10px;
-        color: var(--muted);
+        padding: 12px 14px;
+        border-radius: 12px;
+        color: var(--text);
+        background: rgba(124, 58, 237, 0.08);
         font-weight: 600;
       }
       .navlinks a:hover {
-        color: var(--text);
-        background: rgba(124, 58, 237, 0.12);
+        background: rgba(124, 58, 237, 0.16);
       }
 
+      /* Desktop nav */
+      @media (min-width: 720px) {
+        .menu-btn {
+          display: none;
+        }
+        .navlinks {
+          position: static;
+          display: flex;
+          background: transparent;
+          border: 0;
+          padding: 0;
+        }
+        .navlinks a {
+          background: transparent;
+          color: var(--muted);
+          padding: 0.5rem 0.75rem;
+        }
+        .navlinks a:hover {
+          color: var(--text);
+          background: rgba(124, 58, 237, 0.12);
+        }
+      }
+
+      /* -------------------------------------
+         Hero
+      ------------------------------------- */
       .hero {
         display: grid;
-        grid-template-columns: 1.2fr 1fr;
-        gap: 2rem;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
         align-items: center;
-        padding: 64px 0;
+        padding: 48px 0;
       }
       .title {
-        font-size: clamp(2rem, 4.5vw, 3.5rem);
-        line-height: 1.05;
+        font-size: clamp(1.85rem, 7vw, 3.5rem);
+        line-height: 1.08;
         font-weight: 800;
+        hyphens: auto;
       }
       .grad {
         background: linear-gradient(90deg, var(--brand), var(--brand-2));
@@ -209,13 +213,13 @@
       }
       .subtitle {
         color: var(--muted);
-        font-size: 1.125rem;
-        margin-top: 0.75rem;
+        font-size: 1.05rem;
+        margin-top: 0.65rem;
       }
       .actions {
-        margin-top: 1.25rem;
+        margin-top: 1.1rem;
         display: flex;
-        gap: 0.75rem;
+        gap: 0.6rem;
         flex-wrap: wrap;
       }
       .btn {
@@ -236,28 +240,62 @@
         box-shadow: 0 8px 28px -12px var(--ring);
       }
 
+      /* Decorative art next to hero text (hidden on small screens) */
+      .art {
+        aspect-ratio: 1/1;
+        border-radius: 24px;
+        background: linear-gradient(
+          135deg,
+          rgba(124, 58, 237, 0.35),
+          rgba(34, 211, 238, 0.25)
+        );
+        border: 1px solid rgba(124, 58, 237, 0.15);
+        box-shadow: 0 30px 120px -30px var(--ring);
+        display: none;
+      }
+      @media (min-width: 860px) {
+        .hero {
+          grid-template-columns: 1.2fr 1fr;
+          gap: 2rem;
+        }
+        .art {
+          display: block;
+        }
+      }
+      @media (max-width: 480px) {
+        .actions .btn {
+          flex: 1 1 100%;
+          justify-content: center;
+        }
+      }
+
+      /* -------------------------------------
+         Sections / Cards / Grids
+      ------------------------------------- */
       section {
-        padding: 56px 0;
+        padding: 48px 0;
       }
       .section-title {
-        font-size: 1.75rem;
+        font-size: clamp(1.45rem, 4.5vw, 1.85rem);
         font-weight: 800;
-        margin: 0 0 18px;
+        margin: 0 0 14px;
       }
       .section-sub {
         color: var(--muted);
-        margin: 0 0 24px;
+        margin: 0 0 20px;
       }
 
       .grid {
         display: grid;
-        gap: 18px;
+        gap: 14px;
       }
       @media (min-width: 720px) {
         .grid {
           grid-template-columns: repeat(3, 1fr);
+          gap: 18px;
         }
       }
+
       .card {
         background: linear-gradient(
           180deg,
@@ -266,7 +304,7 @@
         );
         border: 1px solid rgba(124, 58, 237, 0.15);
         border-radius: 18px;
-        padding: 18px;
+        padding: 16px;
         position: relative;
         overflow: hidden;
       }
@@ -280,7 +318,7 @@
       }
       .card h3 {
         margin: 4px 0 6px;
-        font-size: 1.15rem;
+        font-size: 1.1rem;
       }
       .card p {
         color: var(--muted);
@@ -300,10 +338,11 @@
         border: 1px solid rgba(124, 58, 237, 0.25);
         background: rgba(124, 58, 237, 0.1);
       }
-      .card .links {
+      .links {
         display: flex;
         gap: 0.5rem;
         margin-top: 12px;
+        flex-wrap: wrap;
       }
       .chip {
         display: inline-flex;
@@ -311,21 +350,23 @@
         gap: 0.45rem;
         font-weight: 600;
         border: 1px solid rgba(124, 58, 237, 0.25);
-        padding: 0.5rem 0.7rem;
+        padding: 0.55rem 0.7rem;
         border-radius: 12px;
       }
       .chip:hover {
         border-color: rgba(124, 58, 237, 0.45);
       }
 
+      /* Skills */
       .skills {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        gap: 10px;
       }
       @media (min-width: 860px) {
         .skills {
           grid-template-columns: repeat(4, 1fr);
+          gap: 12px;
         }
       }
       .skill {
@@ -337,15 +378,23 @@
         color: var(--muted);
       }
 
+      /* About */
       .about {
         display: grid;
-        grid-template-columns: 1.05fr 1fr;
-        gap: 2rem;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
       }
       .about p {
         color: var(--muted);
       }
+      @media (min-width: 860px) {
+        .about {
+          grid-template-columns: 1.05fr 1fr;
+          gap: 2rem;
+        }
+      }
 
+      /* Footer */
       footer {
         padding: 40px 0 56px;
         color: var(--muted);
@@ -353,57 +402,84 @@
         margin-top: 32px;
       }
 
-      /* Theme toggle */
-      .toggle {
-        inline-size: 56px;
-        block-size: 32px;
+      /* Back-to-top button (ensure 44x44 hit target) */
+      .back-to-top {
+        position: fixed;
+        right: max(20px, env(safe-area-inset-right));
+        bottom: max(20px, env(safe-area-inset-bottom));
+        z-index: 50;
+        width: 44px;
+        height: 44px;
+        display: grid;
+        place-items: center;
         border-radius: 999px;
-        background: #141b32;
-        border: 1px solid rgba(124, 58, 237, 0.3);
-        position: relative;
+        cursor: pointer;
+        background: linear-gradient(120deg, var(--brand), var(--brand-2));
+        color: #0b1020;
+        border: 1px solid rgba(124, 58, 237, 0.35);
+        box-shadow: 0 10px 30px -10px var(--ring);
+        opacity: 0;
+        transform: translateY(8px);
+        pointer-events: none;
+        transition: opacity 0.25s, transform 0.25s;
       }
-      .knob {
-        position: absolute;
-        inset: 3px auto 3px 3px;
-        inline-size: 26px;
-        block-size: 26px;
-        border-radius: 50%;
-        background: linear-gradient(140deg, var(--brand), var(--brand-2));
-        transition: transform 0.25s ease;
+      .back-to-top.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
       }
-      .toggled .knob {
-        transform: translateX(24px);
+      .back-to-top:focus-visible {
+        outline: 3px solid var(--brand-2);
+        outline-offset: 2px;
+      }
+
+      /* Motion preference */
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .knob,
+        .btn,
+        .back-to-top {
+          transition: none;
+        }
       }
     </style>
   </head>
-  <button
-    id="backToTop"
-    class="back-to-top"
-    aria-label="Back to top"
-    title="Back to top"
-  >
-    <!-- Up arrow icon -->
-    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        fill="currentColor"
-        d="M12 5l7 7-1.4 1.4L13 9.8V20h-2V9.8L6.4 13.4 5 12z"
-      />
-    </svg>
-  </button>
 
   <body>
     <header role="banner">
       <div class="container">
         <nav aria-label="Primary">
-          <a class="brand" href="#home" aria-label="Go to top">
-            <span>Christian&nbsp;Vargas</span>
-          </a>
+          <a class="brand" href="#home" aria-label="Go to top"
+            >Christian&nbsp;Vargas</a
+          >
           <div style="display: flex; align-items: center; gap: 12px">
-            <div class="navlinks">
-              <a href="#projects">Projects</a>
-              <a href="#skills">Skills</a>
-              <a href="#about">About</a>
-              <a href="#contact">Contact</a>
+            <button
+              id="menuBtn"
+              class="menu-btn"
+              aria-label="Open menu"
+              aria-expanded="false"
+              aria-controls="primaryNav"
+            >
+              <!-- hamburger icon -->
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"
+                />
+              </svg>
+            </button>
+            <div id="primaryNav" class="navlinks">
+              <a href="#projects" role="menuitem">Projects</a>
+              <a href="#skills" role="menuitem">Skills</a>
+              <a href="#about" role="menuitem">About</a>
+              <a href="#contact" role="menuitem">Contact</a>
             </div>
           </div>
         </nav>
@@ -414,7 +490,7 @@
       <section class="hero" aria-labelledby="intro-heading">
         <div>
           <h1 id="intro-heading" class="title">
-            Hi, I’m <span class="grad">Christian&nbsp;Vargas</span> - Software
+            Hi, I’m <span class="grad">Christian&nbsp;Vargas</span> — Software
             Developer building AI/ML & full‑stack projects.
           </h1>
           <p class="subtitle">
@@ -430,7 +506,6 @@
               rel="noopener noreferrer"
               aria-label="GitHub profile"
             >
-              <!-- GitHub icon -->
               <svg
                 width="18"
                 height="18"
@@ -449,7 +524,6 @@
               href="mailto:christian.s.vargas4@gmail.com"
               aria-label="Email Christian"
             >
-              <!-- mail icon -->
               <svg
                 width="18"
                 height="18"
@@ -470,7 +544,6 @@
               rel="noopener noreferrer"
               aria-label="LinkedIn profile"
             >
-              <!-- linkedin icon -->
               <svg
                 width="18"
                 height="18"
@@ -486,20 +559,7 @@
             </a>
           </div>
         </div>
-        <div
-          aria-hidden="true"
-          style="
-            aspect-ratio: 1/1;
-            border-radius: 24px;
-            background: linear-gradient(
-              135deg,
-              rgba(124, 58, 237, 0.35),
-              rgba(34, 211, 238, 0.25)
-            );
-            border: 1px solid rgba(124, 58, 237, 0.15);
-            box-shadow: 0 30px 120px -30px var(--ring);
-          "
-        ></div>
+        <div class="art" aria-hidden="true"></div>
       </section>
 
       <section id="projects" aria-labelledby="projects-heading">
@@ -542,7 +602,7 @@
             <p>
               Hackathon‑built Alexa skill that lets you choose an LLM backend
               (OpenAI/Microsoft/Meta) and chat via voice. Role: prompts,
-              integrations, and change management. Award : 1st Place in the
+              integrations, and change management. Award: 1st Place in the
               <i>Most Likely to Become a Startup</i> track
             </p>
             <div class="tags">
@@ -675,8 +735,25 @@
       </section>
     </main>
 
+    <!-- Back-to-top button moved INSIDE body for valid HTML -->
+    <button
+      id="backToTop"
+      class="back-to-top"
+      aria-label="Back to top"
+      title="Back to top"
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M12 5l7 7-1.4 1.4L13 9.8V20h-2V9.8L6.4 13.4 5 12z"
+        />
+      </svg>
+    </button>
+
     <script>
-      // Calculate header height -> CSS var (handles responsive header)
+      // -------------------------------------
+      // Header offset (accounts for sticky header height)
+      // -------------------------------------
       function setHeaderOffset() {
         const h = document.querySelector("header")?.offsetHeight || 64;
         document.documentElement.style.setProperty(
@@ -687,7 +764,40 @@
       window.addEventListener("load", setHeaderOffset);
       window.addEventListener("resize", setHeaderOffset);
 
+      // -------------------------------------
+      // Mobile menu toggle
+      // -------------------------------------
+      const menuBtn = document.getElementById("menuBtn");
+      const primaryNav = document.getElementById("primaryNav");
+      if (menuBtn && primaryNav) {
+        menuBtn.addEventListener("click", () => {
+          const isOpen = primaryNav.classList.toggle("open");
+          menuBtn.setAttribute("aria-expanded", String(isOpen));
+        });
+        // Close menu on link click
+        primaryNav.querySelectorAll("a").forEach((a) => {
+          a.addEventListener("click", () => {
+            if (primaryNav.classList.contains("open")) {
+              primaryNav.classList.remove("open");
+              menuBtn.setAttribute("aria-expanded", "false");
+            }
+          });
+        });
+        // Close menu when switching to desktop
+        window.addEventListener("resize", () => {
+          if (
+            window.innerWidth >= 720 &&
+            primaryNav.classList.contains("open")
+          ) {
+            primaryNav.classList.remove("open");
+            menuBtn.setAttribute("aria-expanded", "false");
+          }
+        });
+      }
+
+      // -------------------------------------
       // Smooth-scroll nav links with exact offset
+      // -------------------------------------
       const prefersReduced = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches;
@@ -713,7 +823,9 @@
         });
       });
 
+      // -------------------------------------
       // Back-to-top button
+      // -------------------------------------
       const backToTop = document.getElementById("backToTop");
       const revealAt = 300;
       function toggleBTT() {
@@ -722,7 +834,6 @@
       }
       window.addEventListener("scroll", toggleBTT);
       toggleBTT();
-
       backToTop.addEventListener("click", () => {
         window.scrollTo({
           top: 0,
