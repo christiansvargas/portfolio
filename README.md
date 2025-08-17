@@ -8,7 +8,7 @@ Hi, my name is **Christian**, and this is my personal project portfolio. I built
 - **Interface:** Responsive, accessible nav & buttons, smooth in-page navigation, back-to-top button
 
 ## Usage
-- Visit this URL: [christiansvargas.github.io/portfolio/](https://christiansvargas.github.io/portfolio/)
+- Visit this URL: [christiansvargas.github.io/portfolio](https://christiansvargas.github.io/portfolio/)
 
 ## Contact and GitHub
 - **Email:** Christian.S.Vargas4@gmail.com
