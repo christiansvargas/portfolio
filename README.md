@@ -12,5 +12,5 @@ Hi, my name is **Christian**, and this is my personal project portfolio. I built
 
 ## Contact and GitHub
 - **Email:** Christian.S.Vargas4@gmail.com
-- **GitHub:** [github.com/christiansvargas/password-manager](https://github.com/christiansvargas/password-manager)
+- **GitHub:** [github.com/christiansvargas/portfolio](https://github.com/christiansvargas/portfolio)
 - **LinkedIn:** [linkedin.com/in/christian-s-vargas](https://www.linkedin.com/in/christian-s-vargas)
