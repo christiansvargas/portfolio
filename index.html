@@ -240,6 +240,7 @@
           rgba(124, 58, 237, 0.35),
           rgba(34, 211, 238, 0.25)
         );
+        /* background: url("pic.png") center/cover no-repeat; */
         border: 1px solid rgba(124, 58, 237, 0.15);
         box-shadow: 0 30px 120px -30px var(--ring);
         display: none;
@@ -803,29 +804,43 @@
 
       // -------------------------------------
       // Smooth-scroll nav links with exact offset
+      //   - Normal click: smooth scroll
+      //   - Ctrl/Cmd+click: open in a new tab (default browser behavior)
       // -------------------------------------
       const prefersReduced = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches;
+
       document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach((a) => {
         a.addEventListener("click", (e) => {
+          // If user requests a new tab (Ctrl on Windows/Linux, Cmd on macOS),
+          // do NOT preventDefault — let the browser open a new tab.
+          if (e.ctrlKey || e.metaKey) return;
+
           const id = a.getAttribute("href");
-          if (!id || id === "#") return;
+          if (!id) return;
+
           const el = document.querySelector(id);
           if (!el) return;
+
           e.preventDefault();
+
           const off =
             parseFloat(
               getComputedStyle(document.documentElement).getPropertyValue(
                 "--header-offset"
               )
             ) || 80;
+
           const y = el.getBoundingClientRect().top + window.pageYOffset - off;
+
           window.scrollTo({
             top: y,
             behavior: prefersReduced ? "auto" : "smooth",
           });
-          history.pushState(null, "", id); // keep hash in URL
+
+          // Keep hash in URL for back/forward nav
+          history.pushState(null, "", id);
         });
       });
 
