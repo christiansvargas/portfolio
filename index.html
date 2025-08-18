@@ -742,10 +742,11 @@
       </section>
     </main>
 
-    <!-- Back-to-top button moved INSIDE body for valid HTML -->
-    <button
+    <!-- Back-to-top button -->
+    <a
       id="backToTop"
       class="back-to-top"
+      href="#home"
       aria-label="Back to top"
       title="Back to top"
     >
@@ -755,7 +756,7 @@
           d="M12 5l7 7-1.4 1.4L13 9.8V20h-2V9.8L6.4 13.4 5 12z"
         />
       </svg>
-    </button>
+    </a>
 
     <script>
       // -------------------------------------
@@ -855,13 +856,6 @@
       }
       window.addEventListener("scroll", toggleBTT);
       toggleBTT();
-      backToTop.addEventListener("click", () => {
-        window.scrollTo({
-          top: 0,
-          behavior: prefersReduced ? "auto" : "smooth",
-        });
-        history.pushState(null, "", "#home");
-      });
     </script>
   </body>
 </html>
