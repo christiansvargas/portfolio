@@ -759,23 +759,6 @@
     </a>
 
     <script>
-      (function (l) {
-        if (l.search && l.search[1] === "/") {
-          var decoded = l.search
-            .slice(1)
-            .split("&")
-            .map(function (s) {
-              return s.replace(/~and~/g, "&");
-            })
-            .join("?");
-          // Replace /?/skills → /skills (keeps hash)
-          var newUrl = l.pathname.replace(/\/$/, "") + decoded + l.hash;
-          window.history.replaceState(null, null, newUrl);
-        }
-      })(window.location);
-    </script>
-
-    <script>
       // -------------------------------------
       // Header offset (accounts for sticky header height)
       // -------------------------------------
@@ -857,61 +840,8 @@
             behavior: prefersReduced ? "auto" : "smooth",
           });
 
-          // --- helper: smooth scroll with header offset ---
-          function scrollToEl(el) {
-            const off =
-              parseFloat(
-                getComputedStyle(document.documentElement).getPropertyValue(
-                  "--header-offset"
-                )
-              ) || 80;
-            const y = el.getBoundingClientRect().top + window.pageYOffset - off;
-            window.scrollTo({
-              top: y,
-              behavior: prefersReduced ? "auto" : "smooth",
-            });
-          }
-
-          // --- figure out base path on GitHub Project Pages (/portfolio) ---
-          const REPO_BASE = location.hostname.endsWith("github.io")
-            ? "/" + location.pathname.split("/").filter(Boolean)[0] // "/portfolio"
-            : "";
-
-          // Intercept in-page anchor clicks
-          document
-            .querySelectorAll('a[href^="#"]:not([href="#"])')
-            .forEach((a) => {
-              a.addEventListener("click", (e) => {
-                if (e.ctrlKey || e.metaKey) return; // allow new tab
-
-                const id = a.getAttribute("href");
-                const el = document.querySelector(id);
-                if (!el) return;
-
-                e.preventDefault();
-                const slug = id.slice(1); // "skills"
-                history.pushState({}, "", `${REPO_BASE}/${slug}`); // "/portfolio/skills"
-                scrollToEl(el);
-              });
-            });
-
-          // Handle back/forward
-          window.addEventListener("popstate", () => {
-            const slug =
-              location.pathname.split("/").filter(Boolean).pop() || "home";
-            const el = document.getElementById(slug);
-            if (el) scrollToEl(el);
-          });
-
-          // On initial load, if path includes a slug (e.g. /portfolio/skills), scroll there
-          (function handleInitialPath() {
-            const parts = location.pathname.split("/").filter(Boolean);
-            const slug = parts.length > 1 ? parts.pop() : null;
-            if (slug) {
-              const el = document.getElementById(slug);
-              if (el) scrollToEl(el);
-            }
-          })();
+          // Keep hash in URL for back/forward nav
+          history.pushState(null, "", id);
         });
       });
 
