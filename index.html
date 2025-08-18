@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
-    <meta name="color-scheme" content="dark" />
-    <meta name="supported-color-schemes" content="dark" />
-    <meta name="theme-color" content="#0b0f1a" />
-    <meta name="color-scheme" content="dark" />
-    <meta name="theme-color" content="#0b0f13" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Portfolio</title>
@@ -44,16 +35,6 @@
         --card: #0b1220;
         --ring: rgba(124, 58, 237, 0.35);
         --header-offset: 64px; /* updated dynamically in JS */
-      }
-      @media (prefers-color-scheme: light) {
-        :root {
-          --bg: #f8fafc;
-          --panel: #ffffff;
-          --text: #0f172a;
-          --muted: #475569;
-          --card: #ffffff;
-          --ring: rgba(124, 58, 237, 0.25);
-        }
       }
 
       * {
@@ -149,7 +130,7 @@
         position: fixed;
         left: 0;
         right: 0;
-        top: calc(var(--header-offset));
+        top: calc(var(--header-offset) - 12px);
         background: linear-gradient(
           180deg,
           var(--panel),
@@ -186,6 +167,8 @@
           background: transparent;
           border: 0;
           padding: 0;
+          backdrop-filter: none;
+          -webkit-backdrop-filter: none;
         }
         .navlinks a {
           background: transparent;
@@ -447,240 +430,16 @@
         html {
           scroll-behavior: auto;
         }
-        .knob,
         .btn,
         .back-to-top {
           transition: none;
         }
       }
-
-      :root {
-        color-scheme: dark; /* native controls go dark */
-        --bg: #0b0f13; /* page background */
-        --text: #e6e9ef; /* primary text */
-        --muted: #a0a6b0; /* secondary text */
-        --card: #12161c; /* cards/sections */
-        --border: #232a32; /* subtle borders */
-        --accent: #82aaff; /* links / accents */
-        --accent-strong: #a8c8ff; /* hover / focus */
-      }
-
-      html,
-      body {
-        background: var(--bg);
-        color: var(--text);
-      }
-
-      a {
-        color: var(--accent);
-      }
-      a:hover {
-        color: var(--accent-strong);
-      }
-
-      hr,
-      .divider {
-        border-color: var(--border);
-      }
-
-      /* Common containers & UI bits — keep it generic */
-      section,
-      .section,
-      header,
-      footer,
-      nav,
-      .card,
-      .project,
-      .chip,
-      .tag,
-      button,
-      .btn,
-      input,
-      textarea,
-      select {
-        background-color: var(--card);
-        color: var(--text);
-        border-color: var(--border);
-      }
-
-      ::selection {
-        background: #223044;
-        color: var(--text);
-      }
-
-      /* --- Dark mode baseline --- */
-      :root {
-        color-scheme: dark;
-        --bg: #0b0f13; /* page background */
-        --surface: #11161c; /* cards/panels only */
-        --text: #e6e9ef;
-        --muted: #a0a6b0;
-        --border: #232a32;
-        --accent: #a0a6b0;
-        --accent-strong: #a8c8ff;
-      }
-
-      html,
-      body {
-        background: var(--bg);
-        color: var(--text);
-      }
-
-      /* LINKS / BORDERS */
-      a {
-        color: var(--accent);
-      }
-      a:hover {
-        color: var(--accent-strong);
-      }
-      hr,
-      .divider {
-        border-color: var(--border);
-      }
-
-      /* Keep STRUCTURE transparent so the page looks continuous */
-      section,
-      header,
-      footer,
-      nav,
-      main,
-      .container {
-        background: transparent !important;
-      }
-
-      /* Only give card elements a surface color */
-      .card,
-      .project,
-      .panel,
-      .tile,
-      .chip,
-      .tag {
-        background-color: var(--surface);
-        color: var(--text);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-      }
-
-      /* Forms & buttons should match the surface, not the whole section */
-      button,
-      .btn,
-      input,
-      textarea,
-      select {
-        background-color: var(--surface);
-        color: var(--text);
-        border: 1px solid var(--border);
-      }
-
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        background: radial-gradient(
-            80vw 60vh at 20% -10%,
-            rgba(130, 170, 255, 0.08),
-            transparent 60%
-          ),
-          radial-gradient(
-            70vw 50vh at 80% 0%,
-            rgba(168, 200, 255, 0.06),
-            transparent 55%
-          );
-      }
-
-      .navbar {
-        background: rgba(17, 22, 28, 0.8);
-        backdrop-filter: saturate(140%) blur(6px);
-        border-bottom: 1px solid var(--border);
-      }
-
-      :root {
-        --bg: #0b0f1a; /* page background */
-        --surface: #141a2b; /* cards/sections */
-        --text: #e6eaf2;
-        --muted: #a8b1c7;
-        --border: rgba(255, 255, 255, 0.08);
-      }
-
-      /* Force dark */
-      html {
-        background: var(--bg);
-        color-scheme: dark;
-      }
-      body {
-        margin: 0;
-        background: var(--bg);
-        color: var(--text);
-        -webkit-font-smoothing: antialiased;
-      }
-
-      /* Header stays dark even when translucent */
-      header,
-      nav {
-        background: rgba(11, 15, 26, 0.85);
-        border-bottom: 1px solid var(--border);
-        backdrop-filter: blur(8px) saturate(160%);
-        -webkit-backdrop-filter: blur(8px) saturate(160%);
-      }
-
-      /* Common elements */
-      a {
-        color: #b1c5ff;
-      }
-      button {
-        background: var(--surface);
-        color: var(--text);
-        border: 1px solid var(--border);
-      }
-      input,
-      textarea,
-      select {
-        background: #0f162a;
-        color: var(--text);
-        border: 1px solid var(--border);
-        appearance: none;
-      }
-
-      /* Cards/sections if you use them */
-      .section,
-      .card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-      }
-
-      /* Mobile menu: full-screen dark drawer that doesn’t show page behind it */
-      @media (max-width: 768px) {
-        .mobile-menu,
-        .nav-drawer,
-        .menu-panel {
-          /* use whichever class you have */
-          position: fixed;
-          inset: 0;
-          padding: max(16px, env(safe-area-inset-top)) 20px 20px;
-          background: rgba(11, 15, 26, 0.92);
-          backdrop-filter: blur(12px) saturate(160%);
-          -webkit-backdrop-filter: blur(12px) saturate(160%);
-          z-index: 9999;
-        }
-        .menu-toggle {
-          position: relative;
-          z-index: 10000;
-        } /* burger stays above */
-        body.menu-open {
-          overflow: hidden;
-        } /* lock scroll when open */
-      }
-
-      /* iOS toolbars can change vh; use dvh for full-height sections if you have any */
-      .full-viewport {
-        min-height: 100dvh;
-      }
     </style>
   </head>
 
   <body>
-    <header role="banner">
+    <header>
       <div class="container">
         <nav aria-label="Primary">
           <a class="brand" href="#home" aria-label="Go to top"
@@ -726,7 +485,7 @@
       </div>
     </header>
 
-    <main id="home" class="container" role="main">
+    <main id="home" class="container">
       <section class="hero" aria-labelledby="intro-heading">
         <div>
           <h1 id="intro-heading" class="title">
