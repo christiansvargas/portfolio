@@ -42,7 +42,6 @@
       }
       html {
         scroll-behavior: smooth;
-        scroll-padding-top: var(--header-offset);
       }
       section[id],
       main#home {
@@ -808,7 +807,7 @@
       const prefersReduced = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches;
-      document.querySelectorAll('nav a[href^="#"]').forEach((a) => {
+      document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach((a) => {
         a.addEventListener("click", (e) => {
           const id = a.getAttribute("href");
           if (!id || id === "#") return;
