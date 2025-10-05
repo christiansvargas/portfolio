@@ -430,6 +430,12 @@
           transition: none;
         }
       }
+
+      @media (min-width: 720px) {
+        #projects .grid > .center-on-desktop {
+          grid-column: 2;
+        }
+      }
     </style>
   </head>
 
@@ -573,12 +579,42 @@
         <div class="grid">
           <!-- Project 1 -->
           <article class="card" aria-labelledby="p1-title">
+            <h3 id="p1-title">🥈 GridWatch — City Management System</h3>
+            <p>
+              Real-time civic dashboard with agentic AI — heatmap + live
+              incident feed (traffic, outages, safety, environment). Built in 7
+              hours; 2nd at GDG DevFest DC hackathon.
+            </p>
+            <div class="tags">
+              <span class="tag">HTML/CSS/JS</span>
+              <span class="tag">Python (agent APIs)</span>
+              <span class="tag">Agent Development Kit (ADK)</span>
+              <span class="tag">Firebase & Google Cloud</span>
+            </div>
+            <div class="links">
+              <a
+                class="chip"
+                href="https://gridwatch.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Live</a
+              >
+              <a
+                class="chip"
+                href="https://github.com/VargasChristopher/GridWatch"
+                target="_blank"
+                rel="noopener noreferrer"
+                >View on GitHub</a
+              >
+            </div>
+          </article>
+          <!-- Project 2 -->
+          <article class="card" aria-labelledby="p1-title">
             <h3 id="p1-title">Music Recommendation System</h3>
             <p>
-              Personalized recommender using
-              <strong>content‑based filtering</strong> and
-              <strong>cosine similarity</strong>. Built in Python with NumPy,
-              pandas, and scikit‑learn; runs from the command line.
+              Personalized recommender using content‑based filtering and cosine
+              similarity. Built in Python with NumPy, pandas, and scikit‑learn;
+              runs from the command line.
             </p>
             <div class="tags">
               <span class="tag">Python</span>
@@ -598,7 +634,7 @@
             </div>
           </article>
 
-          <!-- Project 2 -->
+          <!-- Project 3 -->
           <article class="card" aria-labelledby="p2-title">
             <h3 id="p2-title">🥇 Apollo AI — Alexa Skill</h3>
             <p>
@@ -633,8 +669,8 @@
             </div>
           </article>
 
-          <!-- Project 3 -->
-          <article class="card" aria-labelledby="p3-title">
+          <!-- Project 4 -->
+          <article class="card center-on-desktop" aria-labelledby="p3-title">
             <h3 id="p3-title">Password Manager</h3>
             <p>
               Desktop app from my IB CS internal assessment using a lightweight
