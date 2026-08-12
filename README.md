@@ -1,6 +1,6 @@
 # Portfolio
 
-Hi, my name is **Christian**, and this is my personal project portfolio. I built it to showcase my projects and explain a few things about me. I plan on expanding this website out as I gain more programming experience.
+Hi, my name is Christian, and this is my personal project portfolio. I built it to showcase my projects and explain a few things about me. I plan on expanding this website out as I gain more programming experience.
 
 ## Frameworks and Technologies
 - **Programming Languages:** HTML, CSS, JavaScript
